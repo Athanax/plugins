@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.view.Surface;
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Format;
@@ -70,7 +71,9 @@ final class VideoPlayer {
     this.options = options;
 
     TrackSelector trackSelector = new DefaultTrackSelector();
-    exoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
+    exoPlayer = new SimpleExoPlayer.Builder(context, new DefaultRenderersFactory(context,DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON))
+            .setTrackSelector(trackSelector)
+            .build();
 
     Uri uri = Uri.parse(dataSource);
 
